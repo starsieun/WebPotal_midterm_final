@@ -61,4 +61,27 @@ public class ProductDaoTest {
 
 
     }
+
+    @Test
+    public void delete() throws SQLException {
+
+
+        Product product = new Product();
+
+        Long id = Long.valueOf(new Random().nextInt());
+        String title = "한라봉";
+        int price = 6000;
+
+
+        product.setId(id);
+        product.setTitle(title);
+        product.setPrice(price);
+
+        productDao.add(product);
+        productDao.delete(id);
+        assertThat(id,is(productDao.get(id)));
+
+    }
+
+
 }

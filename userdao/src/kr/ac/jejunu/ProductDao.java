@@ -1,5 +1,7 @@
 package kr.ac.jejunu;
 
+import org.junit.Test;
+
 import javax.sql.DataSource;
 
 import java.sql.Connection;
@@ -35,12 +37,13 @@ public class ProductDao {
 
             resultSet = preparedStatement.executeQuery();
 
-            resultSet.next();
-            product = new Product();
-            product.setId(resultSet.getLong("id"));
-            product.setTitle(resultSet.getString("title"));
-            product.setPrice(resultSet.getInt("price"));
-        } catch (SQLException e) {
+            if(resultSet.next()) {
+                    product = new Product();
+                    product.setId(resultSet.getLong("id"));
+                    product.setTitle(resultSet.getString("title"));
+                    product.setPrice(resultSet.getInt("price"));
+                }
+            } catch (SQLException e) {
             e.printStackTrace();
             throw e;
         } finally {
@@ -107,14 +110,33 @@ public class ProductDao {
     }
 
 
+    public void delete(Long id) throws SQLException {
 
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = dataSource.getConnection();
 
+            preparedStatement = connection.prepareStatement("delete from product where id = ?");
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            if(connection != null)
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
-/*
-    public Connection getConnection() throws ClassNotFoundException, SQLException; {
-        Class.forName("com.mysql.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://117.17.102.106/jeju", "root", "1234");
-    }*/
-
-
+        }
+    }
 }
