@@ -32,8 +32,10 @@ public class ProductDao {
         try {
             connection = dataSource.getConnection();
 
-            preparedStatement = connection.prepareStatement("select * from product where id = ?");
-            preparedStatement.setLong(1, id);
+            StatementStrategy statementStrategy = new GetUserStatementStrategy();
+
+            preparedStatement = statementStrategy.makeStatement(id,connection);
+
 
             resultSet = preparedStatement.executeQuery();
 
@@ -79,12 +81,12 @@ public class ProductDao {
         try {
             connection = dataSource.getConnection();
 
-            preparedStatement = connection.prepareStatement("insert into product(id, title, price) VALUE (?, ?, ?)");
-            preparedStatement.setLong(1, product.getId());
-            preparedStatement.setString(2, product.getTitle());
-            preparedStatement.setInt(3, product.getPrice());
+            StatementStrategy statementStrategy = new AddUserStatementStrategy();
+            preparedStatement = statementStrategy.makeStatement(product, connection);
+
 
             preparedStatement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
@@ -112,13 +114,16 @@ public class ProductDao {
 
     public void delete(Long id) throws SQLException {
 
+
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
             connection = dataSource.getConnection();
 
-            preparedStatement = connection.prepareStatement("delete from product where id = ?");
-            preparedStatement.setLong(1, id);
+            StatementStrategy statementStrategy = new DeleteStatementStrategy();
+
+            preparedStatement = statementStrategy.makeStatement(id, connection);
+
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -139,4 +144,7 @@ public class ProductDao {
 
         }
     }
+
+
+
 }
