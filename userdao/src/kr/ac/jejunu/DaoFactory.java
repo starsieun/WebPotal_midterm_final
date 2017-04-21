@@ -1,15 +1,22 @@
 package kr.ac.jejunu;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 /**
  * Created by sieun on 2017. 4. 21..
  */
+
+@Configuration
 public class DaoFactory {
 
-    public ProductDao getProductDao() {
-        return new ProductDao(getConnectionMaker());
+    @Bean
+    public ProductDao productDao() {
+        return new ProductDao(ConnectionMaker());
     }
 
-    private JejuConnectionMaker getConnectionMaker() {
+    @Bean
+    public JejuConnectionMaker ConnectionMaker() {
         return new JejuConnectionMaker();
     }
 }

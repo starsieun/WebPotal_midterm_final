@@ -1,6 +1,5 @@
 package kr.ac.jejunu;
 
-import org.hamcrest.Factory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -14,6 +13,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ProductDaoTest {
 
+    private ProductDao productDao;
+
+    @Before
+    public void setup(){
+        /*productDao = new DaoFactory().productDao();
+        */
+        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+        productDao = context.getBean("productDao",ProductDao.class);
+    }
 
     @Test
     public void get() throws SQLException, ClassNotFoundException {
@@ -23,7 +31,7 @@ public class ProductDaoTest {
 
 
 
-        ProductDao productDao = new DaoFactory().getProductDao();
+        ProductDao productDao = new DaoFactory().productDao();
 
         Product product = productDao.get(id);
         assertThat(id, is(product.getId()));
@@ -44,7 +52,7 @@ public class ProductDaoTest {
         product.setTitle(title);
         product.setPrice(price);
 
-        ProductDao productDao = new DaoFactory().getProductDao();
+        ProductDao productDao = new DaoFactory().productDao();
 
         productDao.add(product);
 
