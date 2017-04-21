@@ -15,6 +15,10 @@ public class ProductDao {
 
     }
 
+    public ProductDao(){
+
+    }
+
     public Product get(Long id) throws ClassNotFoundException, SQLException {
 
         Connection connection = connectionMaker.getConnection();
@@ -54,6 +58,11 @@ public class ProductDao {
 
 
     }
+
+    public void setConnectionMaker(ConnectionMaker connectionMaker) {
+        this.connectionMaker = connectionMaker;
+    }
+
 /*
     public Connection getConnection() throws ClassNotFoundException, SQLException; {
         Class.forName("com.mysql.jdbc.Driver");

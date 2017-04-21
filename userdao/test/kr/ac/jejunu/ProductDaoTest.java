@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 import java.sql.SQLException;
 import java.util.Random;
@@ -18,8 +19,9 @@ public class ProductDaoTest {
     @Before
     public void setup(){
         /*productDao = new DaoFactory().productDao();
-        */
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+        *//*
+        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);*/
+        ApplicationContext context = new GenericXmlApplicationContext("daoFactory.xml");
         productDao = context.getBean("productDao",ProductDao.class);
     }
 
@@ -28,10 +30,7 @@ public class ProductDaoTest {
         Long id = 1L;
         String title = "제주감귤";
         Integer price = 15000;
-
-
-
-        ProductDao productDao = new DaoFactory().productDao();
+        
 
         Product product = productDao.get(id);
         assertThat(id, is(product.getId()));
@@ -52,7 +51,6 @@ public class ProductDaoTest {
         product.setTitle(title);
         product.setPrice(price);
 
-        ProductDao productDao = new DaoFactory().productDao();
 
         productDao.add(product);
 
