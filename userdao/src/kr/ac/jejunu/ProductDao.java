@@ -1,12 +1,15 @@
 package kr.ac.jejunu;
 
+import com.sun.tools.classfile.Attribute;
+
 import java.sql.*;
 
 public class ProductDao {
 
+
     private ConnectionMaker connectionMaker;
 
-    public ProductDao(){
+    public ProductDao(ConnectionMaker connectionMaker){
 
         this.connectionMaker = new JejuConnectionMaker();
 
