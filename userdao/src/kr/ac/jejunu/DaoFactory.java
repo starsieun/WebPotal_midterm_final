@@ -5,7 +5,11 @@ package kr.ac.jejunu;
  */
 public class DaoFactory {
 
-    public ProductDao getUserDao() {
-        return new ProductDao(new JejuConnectionMaker());
+    public ProductDao getProductDao() {
+        return new ProductDao(getConnectionMaker());
+    }
+
+    private JejuConnectionMaker getConnectionMaker() {
+        return new JejuConnectionMaker();
     }
 }

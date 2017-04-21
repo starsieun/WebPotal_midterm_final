@@ -1,7 +1,10 @@
 package kr.ac.jejunu;
 
+import org.hamcrest.Factory;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.sql.SQLException;
 import java.util.Random;
@@ -12,22 +15,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ProductDaoTest {
 
 
-    DaoFactory daoFactory;
-
-    @Before
-    public void setup(){
-        daoFactory = new DaoFactory();
-    }
-
-
-
     @Test
     public void get() throws SQLException, ClassNotFoundException {
         Long id = 1L;
         String title = "제주감귤";
         Integer price = 15000;
 
-        ProductDao productDao = daoFactory.getUserDao();
+
+
+        ProductDao productDao = new DaoFactory().getProductDao();
 
         Product product = productDao.get(id);
         assertThat(id, is(product.getId()));
@@ -48,7 +44,7 @@ public class ProductDaoTest {
         product.setTitle(title);
         product.setPrice(price);
 
-        ProductDao productDao = daoFactory.getUserDao();
+        ProductDao productDao = new DaoFactory().getProductDao();
 
         productDao.add(product);
 

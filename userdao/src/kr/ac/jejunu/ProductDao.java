@@ -11,7 +11,7 @@ public class ProductDao {
 
     public ProductDao(ConnectionMaker connectionMaker){
 
-        this.connectionMaker = new JejuConnectionMaker();
+        this.connectionMaker = connectionMaker;
 
     }
 
