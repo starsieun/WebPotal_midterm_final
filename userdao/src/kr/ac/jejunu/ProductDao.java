@@ -18,23 +18,44 @@ public class ProductDao {
 
     public Product get(Long id) throws SQLException {
 
-        StatementStrategy statementStrategy = new GetUserStatementStrategy(id);
+        StatementStrategy statementStrategy = connection ->{
+
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from product where id = ?");
+
+            preparedStatement.setLong(1, id);
+
+            return preparedStatement;
+        };
 
         return jdbcContext.jdbcContextWithStatementStrategyForQuery(id);
     }
 
     public void add(Product product) throws SQLException {
 
-        StatementStrategy statementStrategy = new AddUserStatementStrategy(product);
 
+
+        StatementStrategy statementStrategy = connection ->{
+
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into product(id, title, price) VALUE (?, ?, ?)");
+
+            preparedStatement.setLong(1, product.getId());
+            preparedStatement.setString(2, product.getTitle());
+            preparedStatement.setInt(3, product.getPrice());
+            return preparedStatement;
+        };
         jdbcContext.jdbcContextWithStatementStrategyForUpdate(statementStrategy);
-
 
     }
 
     public void delete(Long id) throws SQLException {
 
-        StatementStrategy statementStrategy = new DeleteUserStatementStrategy(id);
+        StatementStrategy statementStrategy = connection ->{
+
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement("delete from product where id = ?");
+            preparedStatement.setLong(1, id);
+            return preparedStatement;
+        };
 
         jdbcContext.jdbcContextWithStatementStrategyForUpdate(statementStrategy);
     }
