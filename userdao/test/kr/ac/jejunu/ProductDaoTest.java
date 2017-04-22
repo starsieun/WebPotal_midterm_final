@@ -10,6 +10,7 @@ import java.util.Random;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsNull.nullValue;
 
 public class ProductDaoTest {
 
@@ -79,7 +80,10 @@ public class ProductDaoTest {
 
         productDao.add(product);
         productDao.delete(id);
-        assertThat(id,is(productDao.get(id)));
+
+        Product deleteProduct = productDao.get(id);
+
+        assertThat(deleteProduct, nullValue());
 
     }
 
